@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import Poll from "./Poll";
 import NewPoll from "./NewPoll";
 import Leaderboard from "./Leaderboard";
+import Nav from "./Nav";
 
 function App(props) {
   //console.log(props);
@@ -16,6 +17,7 @@ function App(props) {
   return (
     <div>
       <LoadingBar />
+      <Nav />
       {props.loading === true ? null : (
         <Routes>
           <Route path="/" exact element={<Dashboard />} />
