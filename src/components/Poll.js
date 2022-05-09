@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { handleSaveQuestionAnswer } from "../actions/questions";
 
 const withRouter = (Component) => {
     const ComponentWithRouterProp = (props) => {
@@ -13,8 +14,19 @@ const withRouter = (Component) => {
 };
 
 const Poll = (props) => {
-    const { optionOne, optionTwo } = props.poll;
+    const { id, optionOne, optionTwo } = props.poll;
     const { name, avatarURL } = props.user;
+
+    const handleVote = (e) => {
+        const answer = e.target.value;
+
+        props.dispatch(handleSaveQuestionAnswer({
+            qid: id,
+            answer,
+            authedUser: props.loggedInUser,
+        }));
+    }
+
     return (
         <div>
             <h3>Poll by {name}</h3>
@@ -22,22 +34,23 @@ const Poll = (props) => {
             <p>Would You Rather</p>
             <div>
                 <p>{optionOne.text}</p>
-                <button>Click</button>
+                <button value="optionOne" onClick={handleVote}>Click</button>
             </div>
             <div>
                 <p>{optionTwo.text}</p>
-                <button>Click</button>
+                <button value="optionTwo" onClick={handleVote}>Click</button>
             </div>
         </div>
     )
 }
 
-const mapStateToProps = ({ questions, users }, props) => {
+const mapStateToProps = ({ questions, users, loggedInUser }, props) => {
     const { id } = props.router.params;
     const poll = questions[id];
 
     return {
         poll,
+        loggedInUser,
         user: users[poll.author],
     }
 }
