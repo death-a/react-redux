@@ -5,6 +5,7 @@ import Dashboard from "./Dashboard";
 import LoadingBar from "react-redux-loading-bar";
 import { Routes, Route } from "react-router-dom";
 import Poll from "./Poll";
+import NewPoll from "./NewPoll";
 
 function App(props) {
   //console.log(props);
@@ -18,6 +19,7 @@ function App(props) {
         <Routes>
           <Route path="/" exact element={<Dashboard />} />
           <Route path="/question/:id" element={<Poll />} />
+          <Route path="/newpoll" element={<NewPoll />} />
         </Routes>
       )}
     </div>
