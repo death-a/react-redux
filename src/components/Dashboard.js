@@ -8,7 +8,7 @@ const Dashboard = (props) => {
         <div>
             {props.newQIds.length > 0 ?
                 <div>
-                    <h3>New</h3>
+                    <h3>New Questions</h3>
                     <ul>
                         {props.newQIds.map((id) => (
                             <li key={id}>
