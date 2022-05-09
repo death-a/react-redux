@@ -40,9 +40,9 @@ const mapStateToProps = ({ loggedInUser, questions }) => {
     Object.keys(questions).map((id) => {
         if (questions[id].optionOne.votes.includes(loggedInUser) ||
             questions[id].optionTwo.votes.includes(loggedInUser)) {
-            newQuestions.push(id);
-        } else {
             doneQuestions.push(id);
+        } else {
+            newQuestions.push(id);
         }
     });
 
