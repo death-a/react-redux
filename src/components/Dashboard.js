@@ -54,16 +54,6 @@ const mapStateToProps = ({ loggedInUser, questions }) => {
             (a, b) => questions[b].timestamp - questions[a].timestamp
         ),
     }
-    /*newqIDs: Object.keys(questions).map((id) => {
-        const q = questions[id];
-        if (q.optionOne.votes.includes(loggedInUser) || q.optionTwo.votes.includes(loggedInUser)) {
-            newQuestion.push(q);
-        } else {
-            doneQuestion.push(q);
-        }
-    }).sort(
-        (a, b) => questions[b].timestamp - questions[a].timestamp
-    )*/
 };
 
 export default connect(mapStateToProps)(Dashboard);
