@@ -3,6 +3,8 @@ import { handleInitialData } from "../actions/shared";
 import { connect } from "react-redux";
 import Dashboard from "./Dashboard";
 import LoadingBar from "react-redux-loading-bar";
+import { Routes, Route } from "react-router-dom";
+import Poll from "./Poll";
 
 function App(props) {
   //console.log(props);
@@ -13,7 +15,10 @@ function App(props) {
     <div>
       <LoadingBar />
       {props.loading === true ? null : (
-        <Dashboard />
+        <Routes>
+          <Route path="/" exact element={<Dashboard />} />
+          <Route path="/question/:id" element={<Poll />} />
+        </Routes>
       )}
     </div>
   );
