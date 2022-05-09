@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { connect } from "react-redux";
+import { handleAddQuestion } from "../actions/questions";
 
 const NewPoll = (props) => {
     const [firstOption, setFirstOption] = useState("");
@@ -9,6 +10,10 @@ const NewPoll = (props) => {
         e.preventDefault();
 
         //TODO call savequestion
+        props.dispatch(handleAddQuestion(firstOption, secondOption));
+
+        setFirstOption("");
+        setSecondOption("");
     }
 
     return (
