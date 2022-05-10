@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import { handleAddQuestion } from "../actions/questions";
+import { useNavigate } from "react-router-dom";
 
 const NewPoll = (props) => {
     const [firstOption, setFirstOption] = useState("");
     const [secondOption, setSecondOption] = useState("");
+    let navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -14,6 +16,7 @@ const NewPoll = (props) => {
 
         setFirstOption("");
         setSecondOption("");
+        navigate("/");
     }
 
     return (
