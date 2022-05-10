@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { handleSaveQuestionAnswer } from "../actions/questions";
+import PollPage from "./PollPage";
 
 const withRouter = (Component) => {
     const ComponentWithRouterProp = (props) => {
@@ -14,44 +15,38 @@ const withRouter = (Component) => {
 };
 
 const Poll = (props) => {
-    const { id, optionOne, optionTwo } = props.poll;
-    const { name, avatarURL } = props.user;
-
-    const handleVote = (e) => {
-        const answer = e.target.value;
+    const handleVote = (answer) => {
 
         props.dispatch(handleSaveQuestionAnswer({
-            qid: id,
+            qid: props.id,
             answer,
             authedUser: props.loggedInUser,
         }));
     }
 
     return (
-        <div>
-            <h3>Poll by {name}</h3>
-            <img alt={`avatar of ${name}`} src={avatarURL} />
-            <p>Would You Rather</p>
-            <div>
-                <p>{optionOne.text}</p>
-                <button value="optionOne" onClick={handleVote}>Click</button>
-            </div>
-            <div>
-                <p>{optionTwo.text}</p>
-                <button value="optionTwo" onClick={handleVote}>Click</button>
-            </div>
-        </div>
+        <PollPage qID={props.id} submitVote={handleVote} newFlag={props.newFlag} voted={props.optionVoted} />
     )
 }
 
-const mapStateToProps = ({ questions, users, loggedInUser }, props) => {
+const mapStateToProps = ({ questions, loggedInUser }, props) => {
     const { id } = props.router.params;
     const poll = questions[id];
+    let newFlag = true, optionVoted = null;
+
+    if (poll.optionOne.votes.includes(loggedInUser)) {
+        optionVoted = "optionOne";
+        newFlag = false;
+    } else if (poll.optionTwo.votes.includes(loggedInUser)) {
+        optionVoted = "optionTwo";
+        newFlag = false;
+    }
 
     return {
-        poll,
+        id,
         loggedInUser,
-        user: users[poll.author],
+        newFlag,
+        optionVoted,
     }
 }
 
