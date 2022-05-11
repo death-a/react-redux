@@ -6,3 +6,7 @@ export function setLoggedInUser(id) {
         id,
     };
 }
+
+export function handleLogin(id) {
+    return (dispatch) => dispatch(setLoggedInUser(id))
+}

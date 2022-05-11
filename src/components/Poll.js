@@ -30,7 +30,7 @@ const Poll = (props) => {
 }
 
 const mapStateToProps = ({ questions, loggedInUser }, props) => {
-    const { id } = props.router.params;
+    const { question_id } = props.router.params;
     const poll = questions[id];
     let newFlag = true, optionVoted = null;
 
@@ -43,7 +43,7 @@ const mapStateToProps = ({ questions, loggedInUser }, props) => {
     }
 
     return {
-        id,
+        id: question_id,
         loggedInUser,
         newFlag,
         optionVoted,

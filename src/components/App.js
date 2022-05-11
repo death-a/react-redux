@@ -17,11 +17,11 @@ function App(props) {
   return (
     <div>
       <LoadingBar />
-      <Nav />
+      <Nav name={props.name} avatar={props.avatar} />
       {props.loading === true ? null : (
         <Routes>
           <Route path="/" exact element={<Dashboard />} />
-          <Route path="/question/:id" element={<Poll />} />
+          <Route path="/question/:question_id" element={<Poll />} />
           <Route path="/add" element={<NewPoll />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Routes>
@@ -30,8 +30,10 @@ function App(props) {
   );
 }
 
-const mapStateToProps = ({ loggedInUser }) => ({
+const mapStateToProps = ({ loggedInUser, users }) => ({
   loading: loggedInUser === null,
+  name: !users[loggedInUser] ? "" : users[loggedInUser].name,
+  avatar: !users[loggedInUser] ? "" : users[loggedInUser].avatarURL,
 })
 
 export default connect(mapStateToProps)(App);
