@@ -6,15 +6,15 @@ const Leaderboard = (props) => {
             {props.leaderboard.length > 0 ?
                 <div>
                     <div>
-                        <h3>Users</h3>
-                        <h3>Answered</h3>
-                        <h3>Created</h3>
+                        <span>Users,</span>
+                        <span>Answered,</span>
+                        <span>Created</span>
                     </div>
                     {props.leaderboard.map((user) => (
-                        <div>
-                            <span>{user.name}</span>
-                            <span>{Object.keys(user.answers).length}</span>
-                            <span>{user.questions.length}</span>
+                        <div key={user.id}>
+                            <span>{user.name},</span>
+                            <span>{!user.answered ? 0 : user.answered},</span>
+                            <span>{!user.created ? 0 : user.created}</span>
                         </div>
                     ))}
                 </div>
@@ -25,15 +25,53 @@ const Leaderboard = (props) => {
     )
 }
 
-const mapStateToProps = ({ users }) => {
-    const uIDs = Object.keys(users).sort((a, b) => Object.keys(users[b].answers).length - Object.keys(users[a].answers).length);
+const mapStateToProps = ({ questions, users }) => {
     let sorted_users = [];
-    for (const id of uIDs) {
-        sorted_users.push(users[id]);
+    let created = {}, answered = {}, sum = {};
+    Object.keys(questions).map((q) => {
+        const author = questions[q].author;
+        created[author] = !created[author] ? 1 : created[author] + 1;
+        sum[author] = !sum[author] ? 1 : sum[author] + 1;
+
+        const optionOne = questions[q].optionOne.votes;
+        const optionTwo = questions[q].optionTwo.votes;
+
+        if (optionOne.length > 0) {
+            for (const user of optionOne) {
+                answered[user] = !answered[user] ? 1 : answered[user] + 1;
+                sum[user] = !sum[user] ? 1 : sum[user] + 1;
+            }
+        }
+
+        if (optionTwo.length > 0) {
+            for (const user of optionTwo) {
+                answered[user] = !answered[user] ? 1 : answered[user] + 1;
+                sum[user] = !sum[user] ? 1 : sum[user] + 1;
+            }
+        }
+    });
+
+    for (const id of Object.keys(users)) {
+        const u = {};
+        const user = users[id];
+        u["id"] = user['id'];
+        u["name"] = user['name'];
+        u["avatar"] = user['avatarURL'];
+        u["created"] = created[user.id];
+        u["answered"] = answered[user.id];
+        u["sum"] = sum[user.id];
+        sorted_users.push(u);
     }
+    /*console.log(answered);
+    console.log(created);
+    console.log(sum);
+    console.log(sorted_users);
+    const uIDs = Object.keys(users).sort(
+        (a, b) =>
+            Object.keys(users[b].answers).length - Object.keys(users[a].answers).length);*/
 
     return {
-        leaderboard: sorted_users,
+        leaderboard: sorted_users.sort((a, b) => b.sum - a.sum),
     }
 }
 
