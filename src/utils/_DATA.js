@@ -211,3 +211,20 @@ export function _saveQuestionAnswer({ authedUser, qid, answer }) {
         }, 500)
     })
 }
+
+export function _saveUser(user) {
+    return new Promise((resolve, reject) => {
+        if (!user.id || !user.name || !user.password) {
+            reject("User should have id, name and password");
+        }
+
+        setTimeout(() => {
+            users = {
+                ...users,
+                [user.id]: user
+            }
+
+            resolve(user)
+        }, 1000);
+    })
+}

@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { useState } from "react";
 import { validUsername, validPassword } from '../utils/Regex';
 import { handleLogin } from "../actions/loggedinUser";
+import { handleAddUser } from "../actions/users";
 
 const Login = (props) => {
     const [signUp, setSignUp] = useState(false);
@@ -24,13 +25,14 @@ const Login = (props) => {
             props.dispatch(handleLogin(userSelected));
             matchUser = true;
         } else {
-            const users = JSON.parse(localStorage.getItem("users"));
+            const users = JSON.parse(localStorage.getItem("employees"));
             if (users !== null) {
                 for (const user of users) {
                     if (user["username"] === username && user["password"] !== values.password) {
                         setErrMsg('Username Password mismatch');
                         matchUser = true;
                     } else if (user["username"] === username && user["password"] === values.password) {
+                        props.dispatch(handleLogin(user["username"]));
                         matchUser = true;
                     }
                 }
@@ -54,7 +56,7 @@ const Login = (props) => {
         if (name.trim() === "") {
             errName = true;
         }
-        const users = JSON.parse(localStorage.getItem("users"));
+        const users = JSON.parse(localStorage.getItem("employees"));
         if (users !== null) {
             for (const user of users) {
                 if (user["username"] === username) {
@@ -63,7 +65,16 @@ const Login = (props) => {
             }
         }
         if (!errUserName && !errPass && !errName && !userExists) {
-            //handleSignUp(username, name, values.password);
+            let user = {};
+            user["id"] = username;
+            user["name"] = name;
+            user["password"] = values.password;
+            user["avatarURL"] = `https://i.pravatar.cc/300?u=${username}`;
+            user["answers"] = {};
+            user["questions"] = [];
+
+            props.dispatch(handleAddUser(user));
+            props.dispatch(handleLogin(username));
         } else if (errUserName) {
             setErrMsg("Please check if all the rules for username are satisfied");
         } else if (errPass) {
