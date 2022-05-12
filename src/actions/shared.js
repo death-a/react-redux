@@ -4,8 +4,6 @@ import { receiveUsers } from "./users";
 import { setLoggedInUser } from "./loggedinUser";
 import { showLoading, hideLoading } from "react-redux-loading-bar";
 
-//const LOGGEDIN_USER = "billiechan";
-
 export function handleInitialData() {
     return (dispatch) => {
         dispatch(showLoading());

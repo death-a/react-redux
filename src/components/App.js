@@ -11,10 +11,10 @@ import Nav from "./Nav";
 import Login from "./Login";
 
 function App(props) {
-  //console.log(props);
   useEffect(() => {
     props.dispatch(handleInitialData());
   }, []);
+
   return (
     <div>
       <LoadingBar />

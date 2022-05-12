@@ -31,8 +31,6 @@ const Login = (props) => {
                         setErrMsg('Username Password mismatch');
                         matchUser = true;
                     } else if (user["username"] === username && user["password"] === values.password) {
-                        //handleLogIn(user);
-                        console.log(user);
                         matchUser = true;
                     }
                 }
@@ -66,7 +64,6 @@ const Login = (props) => {
         }
         if (!errUserName && !errPass && !errName && !userExists) {
             //handleSignUp(username, name, values.password);
-            console.log(username, name, values.password);
         } else if (errUserName) {
             setErrMsg("Please check if all the rules for username are satisfied");
         } else if (errPass) {

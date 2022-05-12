@@ -3,7 +3,6 @@ import { handleLogin } from "../actions/loggedinUser";
 import { connect } from "react-redux";
 
 const Nav = (props) => {
-    //const [btnText, setBtnText] = useState("LogIn");
     const logout = (e) => {
         e.preventDefault();
         if (props.id !== null) {
@@ -37,8 +36,6 @@ const Nav = (props) => {
 };
 
 const mapStateToProps = ({ users }, props) => {
-    console.log(props);
-
     return {
         name: !users[props.id] ? "" : users[props.id].name,
         avatar: !users[props.id] ? "" : users[props.id].avatarURL,
