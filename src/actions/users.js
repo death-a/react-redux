@@ -20,7 +20,6 @@ export function addUser(user) {
 export function handleAddUser(user) {
     return (dispatch) => {
         return saveUser(user)
-            .then((user) => (dispatch(addUser(user))))
-            .then(() => signUpUser(user));
+            .then((user) => (dispatch(addUser(user))));
     }
 }

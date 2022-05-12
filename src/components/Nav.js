@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import { handleLogin } from "../actions/loggedinUser";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Nav = (props) => {
+    let navigate = useNavigate();
+
     const logout = (e) => {
         e.preventDefault();
         if (props.id !== null) {
             props.dispatch(handleLogin(null));
+            navigate("/");
         }
     }
     return (

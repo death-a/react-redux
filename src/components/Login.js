@@ -24,19 +24,6 @@ const Login = (props) => {
         if (userSelected !== "" && username === userSelected) {
             props.dispatch(handleLogin(userSelected));
             matchUser = true;
-        } else {
-            const users = JSON.parse(localStorage.getItem("employees"));
-            if (users !== null) {
-                for (const user of users) {
-                    if (user["username"] === username && user["password"] !== values.password) {
-                        setErrMsg('Username Password mismatch');
-                        matchUser = true;
-                    } else if (user["username"] === username && user["password"] === values.password) {
-                        props.dispatch(handleLogin(user["username"]));
-                        matchUser = true;
-                    }
-                }
-            }
         }
         if (!matchUser) {
             setErrMsg("User does not exist in database. Please Sign Up!");
@@ -56,13 +43,13 @@ const Login = (props) => {
         if (name.trim() === "") {
             errName = true;
         }
-        const users = JSON.parse(localStorage.getItem("employees"));
-        if (users !== null) {
-            for (const user of users) {
-                if (user["username"] === username) {
+
+        if (props.users !== null) {
+            Object.keys(props.users).map((id) => {
+                if (id === username) {
                     userExists = true;
                 }
-            }
+            })
         }
         if (!errUserName && !errPass && !errName && !userExists) {
             let user = {};
@@ -175,6 +162,7 @@ const Login = (props) => {
                         (signUp) ?
                             <div >
                                 <button name="signup"
+                                    disabled={(username === "" || name === "" || values.password === "")}
                                     onClick={onSignUp}>
                                     Sign Up
                                 </button>
@@ -190,6 +178,7 @@ const Login = (props) => {
                         (!signUp) ?
                             <div >
                                 <button name="login"
+                                    disabled={(username === "" || values.password === "")}
                                     onClick={onLogIn}>
                                     Log In
                                 </button>
