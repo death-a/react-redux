@@ -4,7 +4,7 @@ import { receiveUsers } from "./users";
 import { setLoggedInUser } from "./loggedinUser";
 import { showLoading, hideLoading } from "react-redux-loading-bar";
 
-const LOGGEDIN_USER = "billiechan";
+//const LOGGEDIN_USER = "billiechan";
 
 export function handleInitialData() {
     return (dispatch) => {
@@ -12,7 +12,7 @@ export function handleInitialData() {
         return getInitialData().then(({ users, questions }) => {
             dispatch(receiveUsers(users));
             dispatch(receiveQuestions(questions));
-            dispatch(setLoggedInUser(LOGGEDIN_USER));
+            dispatch(setLoggedInUser(null));
             dispatch(hideLoading());
         });
     }

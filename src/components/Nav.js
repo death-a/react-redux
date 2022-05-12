@@ -1,17 +1,13 @@
 import { Link } from "react-router-dom";
 import { handleLogin } from "../actions/loggedinUser";
-import { useState } from "react";
+import { connect } from "react-redux";
 
-const Nav = ({ id, name, avatar }) => {
-    const [btnText, setBtnText] = useState("LogOut");
-    const loginlogout = (e) => {
+const Nav = (props) => {
+    //const [btnText, setBtnText] = useState("LogIn");
+    const logout = (e) => {
         e.preventDefault();
-        if (btnText === "LogOut") {
-            //handleLogin(null);
-            setBtnText("LogIn");
-        } else {
-            //handleLogin(id);
-            setBtnText("LogOut");
+        if (props.id !== null) {
+            props.dispatch(handleLogin(null));
         }
     }
     return (
@@ -26,20 +22,27 @@ const Nav = ({ id, name, avatar }) => {
                 <li>
                     <Link to="/add">New</Link>
                 </li>
-                <li>
-                    <div>
-                        {btnText === "LogOut" ?
-                            <div>
-                                <img alt={`avatar of ${name}`} height="30px" width="30px" src={avatar} />
-                                <label>{name}</label>
-                            </div>
-                            : ""}
-                        <button onClick={loginlogout}>{btnText}</button>
-                    </div>
-                </li>
+                {props.id !== null ?
+                    <li>
+                        <div>
+                            <img alt={`avatar of ${props.name}`} height="30px" width="30px" src={props.avatar} />
+                            <label>{props.name}</label>
+                            <button onClick={logout}>LogOut</button>
+                        </div>
+                    </li>
+                    : ""}
             </ul>
         </nav>
     );
 };
 
-export default Nav;
+const mapStateToProps = ({ users }, props) => {
+    console.log(props);
+
+    return {
+        name: !users[props.id] ? "" : users[props.id].name,
+        avatar: !users[props.id] ? "" : users[props.id].avatarURL,
+    }
+};
+
+export default connect(mapStateToProps)(Nav);

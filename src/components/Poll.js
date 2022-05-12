@@ -31,7 +31,7 @@ const Poll = (props) => {
 
 const mapStateToProps = ({ questions, loggedInUser }, props) => {
     const { question_id } = props.router.params;
-    const poll = questions[id];
+    const poll = questions[question_id];
     let newFlag = true, optionVoted = null;
 
     if (poll.optionOne.votes.includes(loggedInUser)) {
