@@ -9,6 +9,7 @@ import NewPoll from "./NewPoll";
 import Leaderboard from "./Leaderboard";
 import Nav from "./Nav";
 import Login from "./Login";
+import PageNotFound from "./PageNotFound";
 
 function App(props) {
   useEffect(() => {
@@ -22,6 +23,7 @@ function App(props) {
       {props.loggedInUser === null ?
         <Login /> :
         (<Routes>
+          <Route path="*" element={<PageNotFound />} />
           <Route path="/" exact element={<Dashboard />} />
           <Route path="/question/:question_id" element={<Poll />} />
           <Route path="/add" element={<NewPoll />} />

@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { handleSaveQuestionAnswer } from "../actions/questions";
+import PageNotFound from "./PageNotFound";
 import PollPage from "./PollPage";
 
 const withRouter = (Component) => {
@@ -25,7 +26,9 @@ const Poll = (props) => {
     }
 
     return (
-        <PollPage qID={props.id} submitVote={handleVote} newFlag={props.newFlag} voted={props.optionVoted} />
+        !props.pageNotFound ?
+            <PollPage qID={props.id} submitVote={handleVote} newFlag={props.newFlag} voted={props.optionVoted} />
+            : <PageNotFound />
     )
 }
 
@@ -33,11 +36,12 @@ const mapStateToProps = ({ questions, loggedInUser }, props) => {
     const { question_id } = props.router.params;
     const poll = questions[question_id];
     let newFlag = true, optionVoted = null;
+    const pageNotFound = (poll === undefined);
 
-    if (poll.optionOne.votes.includes(loggedInUser)) {
+    if (!pageNotFound && poll.optionOne.votes.includes(loggedInUser)) {
         optionVoted = "optionOne";
         newFlag = false;
-    } else if (poll.optionTwo.votes.includes(loggedInUser)) {
+    } else if (!pageNotFound && poll.optionTwo.votes.includes(loggedInUser)) {
         optionVoted = "optionTwo";
         newFlag = false;
     }
@@ -47,6 +51,7 @@ const mapStateToProps = ({ questions, loggedInUser }, props) => {
         loggedInUser,
         newFlag,
         optionVoted,
+        pageNotFound,
     }
 }
 

@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 
 const PollPage = (props) => {
-    console.log(props);
     const { optionOne, optionTwo } = props.poll;
     const { name, avatarURL } = props.user;
 
