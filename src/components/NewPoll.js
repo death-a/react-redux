@@ -11,7 +11,6 @@ const NewPoll = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        //TODO call savequestion
         props.dispatch(handleAddQuestion(firstOption, secondOption));
 
         setFirstOption("");

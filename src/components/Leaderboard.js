@@ -62,13 +62,6 @@ const mapStateToProps = ({ questions, users }) => {
         u["sum"] = sum[user.id];
         sorted_users.push(u);
     }
-    /*console.log(answered);
-    console.log(created);
-    console.log(sum);
-    console.log(sorted_users);
-    const uIDs = Object.keys(users).sort(
-        (a, b) =>
-            Object.keys(users[b].answers).length - Object.keys(users[a].answers).length);*/
 
     return {
         leaderboard: sorted_users.sort((a, b) => b.sum - a.sum),

@@ -2,8 +2,6 @@ import { connect } from "react-redux";
 import Question from "./Question";
 
 const Dashboard = (props) => {
-    //console.log(props.newQIds);
-    //console.log(props.doneQIds);
     return (
         <div>
             {props.newQIds.length > 0 ?
