@@ -1,15 +1,22 @@
+import { Button, Card } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatDate } from "../utils/helper";
 
 const Question = (props) => {
+    let navigate = useNavigate();
     const { author, timestamp, id } = props.question;
+    const handleShowQuestion = () => {
+        navigate(`/question/${id}`);
+    }
     return (
-        <div>
-            <h3>{author}</h3>
-            <span>{formatDate(timestamp)}</span><br />
-            <Link to={`/question/${id}`}>Show</Link>
-        </div>
+        <Card>
+            <Card.Body>
+                <Card.Title>{author}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">{formatDate(timestamp)}</Card.Subtitle>
+                <Button variant="primary" onClick={handleShowQuestion}>Show</Button>
+            </Card.Body>
+        </Card>
     )
 }
 

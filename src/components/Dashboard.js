@@ -1,34 +1,38 @@
 import { connect } from "react-redux";
 import Question from "./Question";
+import { Card, Container } from "react-bootstrap";
 
 const Dashboard = (props) => {
     return (
-        <div>
+        <Container style={{ padding: "10px" }}>
             {props.newQIds.length > 0 ?
-                <div>
-                    <h3>New Questions</h3>
-                    <ul>
+                <Card border="primary">
+                    <Card.Header style={{ textAlign: "center", fontWeight: "bold" }}>New Questions</Card.Header>
+                    <Card.Body className="questions-grid">
                         {props.newQIds.map((id) => (
                             <li key={id}>
                                 <Question qID={id} />
                             </li>
                         ))}
-                    </ul>
-                </div>
+                    </Card.Body>
+                </Card>
                 : ""}
             {props.doneQIds.length > 0 ?
                 <div>
-                    <h3>Done</h3>
-                    <ul>
-                        {props.doneQIds.map((id) => (
-                            <li key={id}>
-                                <Question qID={id} />
-                            </li>
-                        ))}
-                    </ul>
+                    <br />
+                    <Card border="secondary">
+                        <Card.Header style={{ textAlign: "center", fontWeight: "bold" }}>Answered</Card.Header>
+                        <Card.Body className="questions-grid">
+                            {props.doneQIds.map((id) => (
+                                <li key={id}>
+                                    <Question qID={id} />
+                                </li>
+                            ))}
+                        </Card.Body>
+                    </Card>
                 </div>
                 : ""}
-        </div>
+        </Container>
     );
 }
 

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { handleLogin } from "../actions/loggedinUser";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Button, Stack, Image } from "react-bootstrap";
 
 const Nav = (props) => {
     let navigate = useNavigate();
@@ -14,28 +15,23 @@ const Nav = (props) => {
         }
     }
     return (
-        <nav >
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/leaderboard">Leaderboard</Link>
-                </li>
-                <li>
-                    <Link to="/add">New</Link>
-                </li>
-                {props.id !== null ?
-                    <li>
-                        <div>
-                            <img alt={`avatar of ${props.name}`} height="30px" width="30px" src={props.avatar} />
-                            <label>{props.name}</label>
-                            <button onClick={logout}>LogOut</button>
-                        </div>
-                    </li>
-                    : ""}
-            </ul>
-        </nav>
+        <Stack direction="horizontal" gap={4} className="bg-light border" style={{ padding: "10px" }}>
+            <Link to="/" style={{ paddingLeft: "50px" }}>Home</Link>
+            <Link to="/leaderboard">Leaderboard</Link>
+            <Link to="/add">New</Link>
+            {props.id !== null ?
+                <div className="ms-auto" style={{ paddingRight: "50px" }}>
+                    <Image
+                        fluid
+                        roundedCircle
+                        alt={`avatar of ${props.name}`}
+                        style={{ height: "35px", width: "35px", marginRight: "10px" }}
+                        src={props.avatar.replace('300', '35')} />
+                    <label style={{ marginRight: "10px" }}>{props.name}</label>
+                    <Button variant="primary" onClick={logout}>Logout</Button>
+                </div>
+                : ""}
+        </Stack>
     );
 };
 
