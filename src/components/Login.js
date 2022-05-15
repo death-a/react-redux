@@ -115,7 +115,7 @@ const Login = (props) => {
     return (
         <div>
             <p>For faster login use dropdownlist</p>
-            <select onChange={handleUserSelection}>
+            <select onChange={(event) => handleUserSelection(event)} data-testid="username-select">
                 <option value="">Select a User to login</option>
                 {Object.keys(props.users).map((id) => (
                     <option key={id} value={id}>{props.users[id].name}</option>
@@ -123,9 +123,10 @@ const Login = (props) => {
             </select>
             <form >
                 <div >
-                    <p >{errmsg}</p>
+                    {errmsg !== "" && <p data-testid="error-header">{errmsg}</p>}
                     <div >
                         <input type="text"
+                            data-testid="username-input"
                             name="username"
                             placeholder="Username"
                             value={username}
@@ -135,6 +136,7 @@ const Login = (props) => {
                         (signUp) ?
                             <div >
                                 <input type="text"
+                                    data-testid="name-input"
                                     name="name"
                                     placeholder="Name"
                                     value={name}
@@ -145,6 +147,7 @@ const Login = (props) => {
                     }
                     <div >
                         <input type={values.showPassword ? "text" : "password"}
+                            data-testid="password-input"
                             name="password"
                             placeholder="Password"
                             value={values.password}
@@ -162,11 +165,13 @@ const Login = (props) => {
                         (signUp) ?
                             <div >
                                 <button name="signup"
+                                    data-testid="signup-button"
                                     disabled={(username === "" || name === "" || values.password === "")}
                                     onClick={onSignUp}>
                                     Sign Up
                                 </button>
                                 <button name="olduser"
+                                    data-testid="olduser-button"
                                     onClick={() => { setSignUp(false); setErrMsg(""); }}>
                                     Already a User?
                                 </button>
@@ -178,11 +183,13 @@ const Login = (props) => {
                         (!signUp) ?
                             <div >
                                 <button name="login"
+                                    data-testid="login-button"
                                     disabled={(username === "" || values.password === "")}
                                     onClick={onLogIn}>
                                     Log In
                                 </button>
                                 <button name="newuser"
+                                    data-testid="newuser-button"
                                     onClick={() => { setSignUp(true); setErrMsg(""); }}>
                                     New User? Click here
                                 </button>
@@ -192,7 +199,8 @@ const Login = (props) => {
                     }
                     {
                         (signUp) ?
-                            <div style={{ fontSize: "11px", color: "#737373", marginTop: "20px" }}>
+                            <div data-testid="criteria-info"
+                                style={{ fontSize: "11px", color: "#737373", marginTop: "20px" }}>
                                 <p><strong>Rules for Username:</strong><br></br>
                                     1. min 6 characters long<br></br>
                                     2. max 20 characters<br></br>
