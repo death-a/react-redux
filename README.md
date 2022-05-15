@@ -27,7 +27,7 @@ many users have selected one among the two choice.
 
 5. Once the packages are installed, run `npm start`
 
-    this will the app in the development mode.\
+    this will run the app in the development mode.\
     Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ## Testing Instructions
