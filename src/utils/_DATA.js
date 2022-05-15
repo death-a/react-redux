@@ -3,7 +3,7 @@ let users = {
         id: 'billiechan',
         password: 'password123',
         name: 'Billie Chan',
-        avatarURL: 'https://i.pravatar.cc/300?u=billiechan',
+        avatarURL: 'https://i.pravatar.cc/200?img=5',
         answers: {
             "8xf0y6ziyjabvozdd253nd": 'optionOne',
             "6ni6ok3ym7mf1p33lnez": 'optionOne',
@@ -16,7 +16,7 @@ let users = {
         id: 'andyterry',
         password: 'abc321',
         name: 'Andy Terry',
-        avatarURL: 'https://i.pravatar.cc/300?u=andyterry',
+        avatarURL: 'https://i.pravatar.cc/200?img=51',
         answers: {
             "vthrdm985a262al8qx3do": 'optionOne',
             "xj352vofupe1dqz9emx13r": 'optionTwo',
@@ -27,7 +27,7 @@ let users = {
         id: 'frankgibbs',
         password: 'xyz123',
         name: 'Frank Gibbs',
-        avatarURL: 'https://i.pravatar.cc/300?u=frankgibbs',
+        avatarURL: 'https://i.pravatar.cc/200?img=13',
         answers: {
             "xj352vofupe1dqz9emx13r": 'optionOne',
             "vthrdm985a262al8qx3do": 'optionTwo',
@@ -39,7 +39,7 @@ let users = {
         id: 'eddieharvey',
         password: 'pass246',
         name: 'Eddie Harvey',
-        avatarURL: 'https://i.pravatar.cc/300?u=eddieharvey',
+        avatarURL: 'https://i.pravatar.cc/200?img=12',
         answers: {
             "xj352vofupe1dqz9emx13r": 'optionOne',
         },

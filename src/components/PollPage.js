@@ -1,4 +1,7 @@
+import { Container, Card, Button, Image, Row, Col, ProgressBar } from "react-bootstrap";
 import { connect } from "react-redux";
+import { CheckCircleFill } from 'react-bootstrap-icons';
+import PropTypes from 'prop-types';
 
 const PollPage = (props) => {
     const { optionOne, optionTwo } = props.poll;
@@ -14,36 +17,70 @@ const PollPage = (props) => {
         props.submitVote(e.target.value);
     }
     return (
-        <div>
-            <h3>Poll by {name}</h3>
-            <img alt={`avatar of ${name}`} src={avatarURL} />
-            <p>Would You Rather</p>
-            <div>
-                <p>{optionOne.text}</p>
-                {!props.newFlag ?
-                    <div>
-                        <p>{optOnePer}%</p>
-                        <p>{optOneCount}</p>
-                        {props.voted === "optionOne" ? <p>You have voted</p> : ""}
-                    </div>
-                    :
-                    <button value="optionOne" onClick={handleVote}>Click</button>
-                }
-            </div>
-            <div>
-                <p>{optionTwo.text}</p>
-                {!props.newFlag ?
-                    <div>
-                        <p>{optTwoPer}%</p>
-                        <p>{optTwoCount}</p>
-                        {props.voted === "optionTwo" ? <p>You have voted</p> : ""}
-                    </div>
-                    :
-                    <button value="optionTwo" onClick={handleVote}>Click</button>
-                }
-            </div>
-        </div>
+        <Container>
+            <Card style={{
+                textAlign: "center",
+                width: "80%",
+                padding: "20px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "25px"
+            }}>
+                <Card.Body>
+                    <Card.Title as="h2">Poll by {name}</Card.Title>
+                    <Image roundedCircle alt={`avatar of ${name}`} src={avatarURL} />
+                    <Container >
+                        <h3 style={{ marginTop: "20px" }}>Would You Rather</h3>
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <Card.Header as="h5"
+                                        style={!props.newFlag && props.voted === "optionOne" ? { background: "#5b5" } : {}}>
+                                        {!props.newFlag && props.voted === "optionOne" ? <CheckCircleFill /> : ""}
+                                        {' '}
+                                        {optionOne.text}
+                                    </Card.Header>
+                                    {!props.newFlag ?
+                                        <div>
+                                            <label style={{ marginTop: "10px" }}>No. of employees who voted: {optOneCount}</label>
+                                            <ProgressBar now={optOnePer} label={`${optOnePer}%`} style={{ marginTop: "10px" }} />
+                                        </div>
+                                        :
+                                        <Button size="lg" variant="primary" value="optionOne" onClick={handleVote}>Click</Button>
+                                    }
+                                </Card>
+                            </Col>
+                            <Col>
+                                <Card>
+                                    <Card.Header as="h5"
+                                        style={!props.newFlag && props.voted === "optionTwo" ? { background: "#5b5" } : {}}>
+                                        {!props.newFlag && props.voted === "optionTwo" ? <CheckCircleFill /> : ""}
+                                        {' '}
+                                        {optionTwo.text}
+                                    </Card.Header>
+                                    {!props.newFlag ?
+                                        <div>
+                                            <label style={{ marginTop: "10px" }}>No. of employees who voted: {optTwoCount}</label>
+                                            <ProgressBar now={optTwoPer} label={`${optTwoPer}%`} style={{ marginTop: "10px" }} />
+                                        </div>
+                                        :
+                                        <Button size="lg" variant="primary" value="optionTwo" onClick={handleVote}>Click</Button>
+                                    }
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Card.Body>
+            </Card>
+        </Container>
     )
+}
+
+PollPage.propTypes = {
+    qID: PropTypes.string.isRequired,
+    submitVote: PropTypes.func.isRequired,
+    newFlag: PropTypes.bool.isRequired,
+    voted: PropTypes.string,
 }
 
 const mapStateToProps = ({ questions, users }, props) => {

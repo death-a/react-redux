@@ -1,27 +1,62 @@
 import { connect } from "react-redux";
+import { Container, Card, Button, Image, Row, Col, ProgressBar } from "react-bootstrap";
 
 const Leaderboard = (props) => {
     return (
-        <div>
+        <Container style={{
+            width: "80%",
+            padding: "20px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: "25px"
+        }}>
             {props.leaderboard.length > 0 ?
-                <div>
-                    <div>
-                        <span>Users,</span>
-                        <span>Answered,</span>
-                        <span>Created</span>
-                    </div>
-                    {props.leaderboard.map((user) => (
-                        <div key={user.id}>
-                            <span>{user.name},</span>
-                            <span>{!user.answered ? 0 : user.answered},</span>
-                            <span>{!user.created ? 0 : user.created}</span>
-                        </div>
-                    ))}
-                </div>
+                <Card >
+                    <Card.Header>
+                        <Row>
+                            <Col>
+                                Users
+                            </Col>
+                            <Col>
+                                Answered
+                            </Col>
+                            <Col>
+                                Created
+                            </Col>
+                        </Row>
+                    </Card.Header>
+                    <Container>
+                        {props.leaderboard.map((user) => (
+                            <Row key={user.id} style={{ background: "#eee", padding: "1px" }}>
+                                <Col style={{ background: "#fff" }}>
+                                    <div style={{ padding: "1px" }}>
+                                        <div style={{ background: "#ccc" }}>
+                                            <div style={{ float: "left", marginTop: "5px" }}>
+                                                <Image roundedCircle alt={`avatar of ${user.name}`} src={user.avatar.replace('200', '35')} />
+                                            </div>
+                                            <div style={{ float: "left", marginLeft: "10px" }}>
+                                                <label style={{ fontSize: "12pt" }}>{user.name}</label><br />
+                                                <label style={{ fontSize: "10pt", color: "#666" }}>{user.id}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col style={{ background: "#fff" }}>
+                                    <div style={{ marginTop: "5px" }}>{!user.answered ? 0 : user.answered}</div>
+                                </Col>
+                                <Col style={{ background: "#fff" }}>
+                                    <div style={{ marginTop: "5px" }}>{!user.created ? 0 : user.created}</div>
+                                </Col>
+                            </Row>
+                        ))}
+                    </Container>
+                </Card>
                 :
-                <p>No Result Found</p>
+                <Card>
+                    <Card.Body>No Result Found</Card.Body>
+                </Card>
             }
-        </div>
+        </Container>
     )
 }
 

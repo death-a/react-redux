@@ -3,6 +3,7 @@ import { handleLogin } from "../actions/loggedinUser";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Stack, Image } from "react-bootstrap";
+import PropTypes from 'prop-types';
 
 const Nav = (props) => {
     let navigate = useNavigate();
@@ -26,7 +27,7 @@ const Nav = (props) => {
                         roundedCircle
                         alt={`avatar of ${props.name}`}
                         style={{ height: "35px", width: "35px", marginRight: "10px" }}
-                        src={props.avatar.replace('300', '35')} />
+                        src={props.avatar.replace('200', '35')} />
                     <label style={{ marginRight: "10px" }}>{props.name}</label>
                     <Button variant="primary" onClick={logout}>Logout</Button>
                 </div>
@@ -34,6 +35,10 @@ const Nav = (props) => {
         </Stack>
     );
 };
+
+Nav.propTypes = {
+    id: PropTypes.string,
+}
 
 const mapStateToProps = ({ users }, props) => {
     return {

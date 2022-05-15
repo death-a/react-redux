@@ -3,6 +3,8 @@ import { useState } from "react";
 import { validUsername, validPassword } from '../utils/Regex';
 import { handleLogin } from "../actions/loggedinUser";
 import { handleAddUser } from "../actions/users";
+import { Container, Card, Form, Button, InputGroup } from "react-bootstrap";
+import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons';
 
 const Login = (props) => {
     const [signUp, setSignUp] = useState(false);
@@ -20,13 +22,18 @@ const Login = (props) => {
         if (username === "" && values.password === "") {
             setErrMsg("");
         }
-        let matchUser = false;
-        if (userSelected !== "" && username === userSelected) {
-            props.dispatch(handleLogin(userSelected));
-            matchUser = true;
+        let userExists = false;
+        if (props.users !== null) {
+            Object.keys(props.users).map((id) => {
+                if (id === username && values.password === props.users[id].password) {
+                    userExists = true;
+                }
+            });
         }
-        if (!matchUser) {
-            setErrMsg("User does not exist in database. Please Sign Up!");
+        if (userExists) {
+            props.dispatch(handleLogin(userSelected));
+        } else {
+            setErrMsg("Username or Password incorrect");
         }
     }
 
@@ -56,7 +63,7 @@ const Login = (props) => {
             user["id"] = username;
             user["name"] = name;
             user["password"] = values.password;
-            user["avatarURL"] = `https://i.pravatar.cc/300?u=${username}`;
+            user["avatarURL"] = `https://i.pravatar.cc/200?u=${username}`;
             user["answers"] = {};
             user["questions"] = [];
 
@@ -113,86 +120,113 @@ const Login = (props) => {
     };
 
     return (
-        <div>
-            <p>For faster login use dropdownlist</p>
-            <select onChange={(event) => handleUserSelection(event)} data-testid="username-select">
-                <option value="">Select a User to login</option>
-                {Object.keys(props.users).map((id) => (
-                    <option key={id} value={id}>{props.users[id].name}</option>
-                ))}
-            </select>
-            <form >
-                <div >
-                    {errmsg !== "" && <p data-testid="error-header">{errmsg}</p>}
-                    <div >
-                        <input type="text"
+        <Card border={errmsg !== "" ? "danger" : "dark"}
+            style={{
+                width: "30rem",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "25px"
+            }}>
+            <Card.Header style={{ background: "#17f", color: "#fff" }}>
+                <Form>
+                    <Form.Group className="mb-3" controlId="formBasicUsernameSelect">
+                        <Form.Label>For faster login Select User from DropdownList</Form.Label>
+                        <Form.Select disabled={signUp} size="lg" onChange={(event) => handleUserSelection(event)} data-testid="username-select">
+                            <option value="">Select a User to login</option>
+                            {Object.keys(props.users).map((id) => (
+                                <option key={id} value={id}>{props.users[id].name}</option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+                </Form>
+            </Card.Header>
+            <Form style={{ padding: "30px" }}>
+                <div>
+                    {errmsg !== "" && <label style={{ color: "red" }} className="mb-3" data-testid="error-header">{errmsg}</label>}
+
+                    <Form.Group className="mb-3" controlId="formBasicUsername">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control type="text"
                             data-testid="username-input"
                             name="username"
                             placeholder="Username"
                             value={username}
                             onChange={(event) => onhandleChangeUsername(event)} />
-                    </div>
+                    </Form.Group>
                     {
                         (signUp) ?
-                            <div >
-                                <input type="text"
+                            <Form.Group className="mb-3" controlId="formBasicName">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control type="text"
                                     data-testid="name-input"
                                     name="name"
-                                    placeholder="Name"
+                                    placeholder="Enter your Name"
                                     value={name}
                                     onChange={(event) => onhandleChangeName(event)} />
-                            </div>
+                            </Form.Group>
                             :
                             ''
                     }
-                    <div >
-                        <input type={values.showPassword ? "text" : "password"}
-                            data-testid="password-input"
-                            name="password"
-                            placeholder="Password"
-                            value={values.password}
-                            onChange={handlePasswordChange("password")} />
+                    <Form.Group className="mb-3" controlId="formBasicName">
+                        <Form.Label>Password</Form.Label>
+                        <InputGroup className="mb-2">
+                            <Form.Control
+                                type={values.showPassword ? "text" : "password"}
+                                data-testid="password-input"
+                                name="password"
+                                placeholder="Password"
+                                value={values.password}
+                                onChange={handlePasswordChange("password")} />
+                            <InputGroup.Text
+                                style={{ cursor: "pointer" }}
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}>
+                                {(values.showPassword) ?
+                                    <EyeFill /> :
+                                    <EyeSlashFill />
+                                }
+                            </InputGroup.Text>
+                        </InputGroup>
 
-                        <span onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                        >
-                            {
-                                (values.showPassword) ? "Hide" : "Show"
-                            }
-                        </span>
-                    </div>
+                    </Form.Group>
                     {
                         (signUp) ?
-                            <div >
-                                <button name="signup"
-                                    data-testid="signup-button"
-                                    disabled={(username === "" || name === "" || values.password === "")}
-                                    onClick={onSignUp}>
-                                    Sign Up
-                                </button>
-                                <button name="olduser"
-                                    data-testid="olduser-button"
-                                    onClick={() => { setSignUp(false); setErrMsg(""); }}>
-                                    Already a User?
-                                </button>
+                            <div>
+                                <Form.Group className="mb-3" controlId="formBasicSignUp">
+                                    <Button name="signup"
+                                        data-testid="signup-button"
+                                        disabled={(username === "" || name === "" || values.password === "")}
+                                        onClick={onSignUp}>
+                                        Sign Up
+                                    </Button> {' '}
+                                    <Button name="olduser"
+                                        variant="link"
+                                        data-testid="olduser-button"
+                                        onClick={() => { setSignUp(false); setErrMsg(""); }}>
+                                        Already a User?
+                                    </Button>
+                                </Form.Group>
                             </div>
                             :
                             ""
                     }
                     {
                         (!signUp) ?
-                            <div >
-                                <button name="login"
-                                    data-testid="login-button"
-                                    disabled={(username === "" || values.password === "")}
-                                    onClick={onLogIn}>
-                                    Log In
-                                </button>
-                                <button name="newuser"
-                                    data-testid="newuser-button"
-                                    onClick={() => { setSignUp(true); setErrMsg(""); }}>
-                                    New User? Click here
-                                </button>
+                            <div>
+                                <Form.Group className="mb-3" controlId="formBasicLogin">
+                                    <Button name="login"
+                                        data-testid="login-button"
+                                        disabled={(username === "" || values.password === "")}
+                                        onClick={onLogIn}>
+                                        Log In
+                                    </Button> {' '}
+                                    <Button name="newuser"
+                                        variant="link"
+                                        data-testid="newuser-button"
+                                        onClick={() => { setSignUp(true); setErrMsg(""); }}>
+                                        New User?
+                                    </Button>
+                                </Form.Group>
                             </div>
                             :
                             ""
@@ -214,8 +248,8 @@ const Login = (props) => {
                             ""
                     }
                 </div>
-            </form>
-        </div>
+            </Form>
+        </Card>
     )
 }
 

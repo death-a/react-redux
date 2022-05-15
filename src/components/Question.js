@@ -14,8 +14,8 @@ const Question = (props) => {
             <Card.Body>
                 <Card.Title>{author}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{formatDate(timestamp)}</Card.Subtitle>
-                <Button variant="primary" onClick={handleShowQuestion}>Show</Button>
             </Card.Body>
+            <Button variant="outline-primary" onClick={handleShowQuestion}>Show</Button>
         </Card>
     )
 }

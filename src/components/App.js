@@ -17,7 +17,7 @@ function App(props) {
   }, []);
 
   return (
-    <div>
+    <div style={{ background: "#fff" }}>
       <LoadingBar />
       <Nav id={props.loggedInUser} />
       {props.loggedInUser === null ?
